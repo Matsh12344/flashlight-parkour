@@ -1,0 +1,34 @@
+{
+    "name": "flashlight parkour",
+    "description": "",
+    "dependencies": {
+        "device": "*",
+        "color": "*",
+        "Color Fading": "github:jwunderl/pxt-color#v0.2.3",
+        "pxt-lantern": "github:felixtsu/pxt-lantern#v0.2.1",
+        "carnival": "github:microsoft/arcade-carnival#v0.0.7"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json",
+        "tilemap.g.jres",
+        "tilemap.g.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "branch": "v1.12.56",
+        "tag": "v1.12.56",
+        "commits": "https://github.com/microsoft/pxt-arcade/commits/415ef2df2ac233e8d214fef5f4ea26f2f5de232a",
+        "target": "2.0.56",
+        "pxt": "8.5.67",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "tsprj"
+}
