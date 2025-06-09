@@ -290,7 +290,7 @@ function load_level () {
             6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
             6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
             `)
-            //placeholders
+        // placeholders
         tiles.setCurrentTilemap(tilemap`level2`)
         multilights.toggleLighting(true)
     } else if (current_level == 1) {
@@ -719,9 +719,34 @@ function place_coins () {
         tiles.setTileAt(value4, assets.tile`transparency16`)
     }
 }
+function stars () {
+    for (let value8 of tiles.getTilesByType(assets.tile`myTile17`)) {
+        star = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . b b . . . . . . . 
+            . . . . . . b 5 5 b . . . . . . 
+            . . . b b b 5 5 1 1 b b b . . . 
+            . . . b 5 5 5 5 1 1 5 5 b . . . 
+            . . . . b d 5 5 5 5 d b . . . . 
+            . . . . c b 5 5 5 5 b c . . . . 
+            . . . . c 5 d d d d 5 c . . . . 
+            . . . . c 5 d c c d 5 c . . . . 
+            . . . . c c c . . c c c . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.lightsource)
+        tiles.placeOnTile(star, value8)
+        tiles.setTileAt(value8, assets.tile`transparency16`)
+        multilights.addLightSource(star, 5)
+    }
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.lightsource, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
-    multilights.bandWidthOf(Hero1, 20)
+    multilights.bandWidthOf(Hero1, 12)
 })
 info.onLifeZero(function () {
     game.splash("Gotcha!!! :)")
@@ -799,6 +824,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     }
 })
 let bullet: Sprite = null
+let star: Sprite = null
 let coin: Sprite = null
 let hearts: Sprite = null
 let Hero1: Sprite = null
