@@ -2,6 +2,17 @@ namespace SpriteKind {
     export const health = SpriteKind.create()
     export const lightsource = SpriteKind.create()
 }
+// #16
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (starlevel > 2) {
+        multilights.addFlashLightSource(
+        Hero1,
+        0,
+        50,
+        30
+        )
+    }
+})
 function Spawn_Enemies () {
     for (let value5 of tiles.getTilesByType(assets.tile`myTile3`)) {
         bad = sprites.create(img`
@@ -60,7 +71,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.health, function (sprite, otherS
 // #16
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     // #3 #4 #5
-    if (Hero1.vy == 0 || _of_jumps <= 2) {
+    if (Hero1.vy == 0 || _of_jumps <= 1) {
         Hero1.vy = jump_speed
         _of_jumps += 1
         music.play(music.createSoundEffect(WaveShape.Square, 400, 600, 255, 0, 100, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
@@ -427,6 +438,7 @@ function load_level () {
     Spawn_bad__2()
     place_coin_second()
     lanterm()
+    stars()
 }
 info.onScore(16, function () {
     for (let value2 of tiles.getTilesByType(sprites.builtin.brick)) {
@@ -741,12 +753,13 @@ function stars () {
             `, SpriteKind.lightsource)
         tiles.placeOnTile(star, value8)
         tiles.setTileAt(value8, assets.tile`transparency16`)
-        multilights.addLightSource(star, 5)
+        multilights.addLightSource(star, 1)
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.lightsource, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     multilights.bandWidthOf(Hero1, 12)
+    starlevel += 1
 })
 info.onLifeZero(function () {
     game.splash("Gotcha!!! :)")
@@ -827,9 +840,9 @@ let bullet: Sprite = null
 let star: Sprite = null
 let coin: Sprite = null
 let hearts: Sprite = null
-let Hero1: Sprite = null
 let lantern2: Sprite = null
 let bad: Sprite = null
+let Hero1: Sprite = null
 let current_level = 0
 let change_projectile = false
 let coin_value = 0
@@ -838,11 +851,13 @@ let player_speed = 0
 let jump_speed = 0
 let gravity = 0
 let _of_jumps = 0
+let starlevel = 0
 game.splash("Collect 16 coins to get the treasure.")
 game.splash("watch out for Lava and Enemies.")
 game.splash("You can walk through sand and Soul sand blocks.")
 game.splash("pickup lanterns to see")
 info.setLife(3)
+starlevel = 0
 _of_jumps = 0
 gravity = 200
 jump_speed = -125
