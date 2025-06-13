@@ -1,15 +1,16 @@
 namespace SpriteKind {
     export const health = SpriteKind.create()
     export const lightsource = SpriteKind.create()
+    export const star = SpriteKind.create()
 }
 // #16
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (starlevel > 2) {
+    if (x > 3) {
         multilights.addFlashLightSource(
         Hero1,
         0,
-        50,
-        30
+        75,
+        60
         )
     }
 })
@@ -628,7 +629,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . f f f f f f f f f f . . 
         . . . . . f f . . . f f f . . . 
         `],
-    100,
+    200,
     true
     )
 })
@@ -750,7 +751,7 @@ function stars () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, SpriteKind.lightsource)
+            `, SpriteKind.star)
         tiles.placeOnTile(star, value8)
         tiles.setTileAt(value8, assets.tile`transparency16`)
         multilights.addLightSource(star, 1)
@@ -791,12 +792,15 @@ function Spawn_bad__2 () {
         bad.setBounceOnWall(true)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.star, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite, effects.starField, 500)
+    x += 1
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     // #2
     otherSprite.vy = -20
     // #1
     sprites.destroy(otherSprite, effects.disintegrate, 500)
-    info.changeScoreBy(coin_value)
 })
 function place_player () {
     for (let value3 of tiles.getTilesByType(assets.tile`myTile`)) {
@@ -845,25 +849,25 @@ let bad: Sprite = null
 let Hero1: Sprite = null
 let current_level = 0
 let change_projectile = false
-let coin_value = 0
 let Enemy_speed = 0
 let player_speed = 0
 let jump_speed = 0
 let gravity = 0
 let _of_jumps = 0
-let starlevel = 0
+let x = 0
 game.splash("Collect 16 coins to get the treasure.")
 game.splash("watch out for Lava and Enemies.")
 game.splash("You can walk through sand and Soul sand blocks.")
 game.splash("pickup lanterns to see")
 info.setLife(3)
-starlevel = 0
+x = 0
+let starlevel = 0
 _of_jumps = 0
 gravity = 200
 jump_speed = -125
 player_speed = 100
 Enemy_speed = 50
-coin_value = 1
+let coin_value = 1
 change_projectile = false
 current_level = 0
 load_level()
