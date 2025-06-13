@@ -3,15 +3,34 @@ namespace SpriteKind {
     export const lightsource = SpriteKind.create()
     export const star = SpriteKind.create()
 }
+function lightslava () {
+    for (let value9 of tiles.getTilesByType(sprites.dungeon.hazardLava1)) {
+        lava = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            4 . . . . . . . . . . . . . . 4 
+            `, SpriteKind.star)
+        tiles.placeOnTile(lava, value9)
+        multilights.addLightSource(lava, 10)
+    }
+}
 // #16
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (x > 3) {
-        multilights.addFlashLightSource(
-        Hero1,
-        0,
-        75,
-        60
-        )
+        multilights.flashlightSourceAttachedTo(Hero1).lightRange += 50
     }
 })
 function Spawn_Enemies () {
@@ -101,6 +120,12 @@ function call_Player () {
     scene.cameraFollowSprite(Hero1)
     Hero1.ay = gravity
     multilights.addLightSource(Hero1, 3)
+    multilights.addFlashLightSource(
+    Hero1,
+    0,
+    15,
+    60
+    )
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -440,6 +465,7 @@ function load_level () {
     place_coin_second()
     lanterm()
     stars()
+    lightslava()
 }
 info.onScore(16, function () {
     for (let value2 of tiles.getTilesByType(sprites.builtin.brick)) {
@@ -847,6 +873,7 @@ let hearts: Sprite = null
 let lantern2: Sprite = null
 let bad: Sprite = null
 let Hero1: Sprite = null
+let lava: Sprite = null
 let current_level = 0
 let change_projectile = false
 let Enemy_speed = 0
@@ -881,5 +908,10 @@ game.onUpdate(function () {
             bullet.setKind(SpriteKind.Enemy)
             change_projectile = false
         }
+    }
+})
+game.onUpdate(function () {
+    if (Hero1.vx > 0) {
+        multilights.flashlightSourceAttachedTo(Hero1).lightRange = 0
     }
 })
